@@ -2,7 +2,7 @@
 """
 Created on Thu Mar  9 11:20:41 2023
 
-@author: tommy
+@author: artem
 """
 import numpy as np
 from sklearn.preprocessing import minmax_scale
