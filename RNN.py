@@ -61,17 +61,36 @@ K[:,0] = I[:,0]
 T_dt = int(T/dt)
 
 for t in range(1,T_dt):
-    dK = -alpha*K[:,t-1] + ReLU(K[:,t-1]*W_in) +I[:,t]+1
+    dK = -alpha*K[:,t-1] + ReLU(((K[:,t-1].T * W_in).T)) + I[:,t] + 1
     K[:,t] += tau*dK
     
 #Scaling the data to help with plotting
 Ks = scaledata(K, 0, (1/(M**2)))
 
 #%%
+#Main loop for synaptic plasticity
+sup_err = np.zeros((num_iter,1))
+pred_err = np.zeros((num_iter,1))
+dBhat = np.zeros((1,200))
 
-
-
-
+for i in range(1,num_iter):
+    #combined supervised and predictive learning rule
+    dW = (np.linalg.pinv(Ks.T)) @ (gamma*(Y-B)).T + (np.linalg.pinv(Ks.T)) @ (-sigma*(B-Bhat)).T
+    W += (tau_w*dW)
+    
+    #   #update top-down prediction
+    dBhat = -Bhat + B
+    Bhat += tau_b * dBhat
+    
+    #   #network output
+    B = (Ks.T @ W).T
+    
+    # #supervised and predictive error
+    sup_err[i] = np.mean(np.power((B-Y),2))
+    pred_err[i] = np.mean(np.power((Bhat-B),2))
+    
+#%%  
+    
 
 
 
