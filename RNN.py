@@ -2,7 +2,7 @@
 """
 Created on Thu Mar  9 11:45:18 2023
 
-@author: tommy
+@author: artem
 """
 
 import ScaledData
