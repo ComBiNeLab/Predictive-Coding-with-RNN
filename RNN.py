@@ -58,7 +58,63 @@ num_iter = 100 #number of training iterations
 I = Z@X
 K = np.zeros((M,T))
 K[:,0] = I[:,0]
-T_dt = T/dt
+T_dt = int(T/dt)
 
 for t in range(1,T_dt):
-    dK = -alpha*K[:,t-1] + ReLU(K[:,t-1])
+    dK = -alpha*K[:,t-1] + ReLU(K[:,t-1]*W_in) +I[:,t]+1
+    K[:,t] += tau*dK
+    
+#Scaling the data to help with plotting
+Ks = scaledata(K, 0, (1/(M**2)))
+
+#%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
