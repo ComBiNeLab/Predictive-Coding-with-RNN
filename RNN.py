@@ -108,6 +108,7 @@ plt.xlabel('time-steps')
 plt.ylabel('MSE')
 plt.title('Supervised Error')
 
+
 plt.subplot(2,2,4)
 plt.plot(pred_err, color = 'k', linewidth = 5)
 plt.rcParams.update({'font.size': 18})
