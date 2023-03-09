@@ -8,7 +8,8 @@ Created on Thu Mar  9 11:45:18 2023
 from ScaledData import scaledata
 from ReLU import ReLU
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
 
 """An example of RNN learning a random target pattern
 using a combination of supervised and predictive learning"""
@@ -73,7 +74,7 @@ sup_err = np.zeros((num_iter,1))
 pred_err = np.zeros((num_iter,1))
 dBhat = np.zeros((1,200))
 
-for i in range(1,num_iter):
+for i in range(0,num_iter):
     #combined supervised and predictive learning rule
     dW = (np.linalg.pinv(Ks.T)) @ (gamma*(Y-B)).T + (np.linalg.pinv(Ks.T)) @ (-sigma*(B-Bhat)).T
     W += (tau_w*dW)
@@ -90,13 +91,32 @@ for i in range(1,num_iter):
     pred_err[i] = np.mean(np.power((Bhat-B),2))
     
 #%%  
-    
+#Plot results 
+Bplot = scaledata(B.T, 0, 1)
+Xplot = scaledata(Y.T, 0, 1)
 
+plt.subplot(2,2,(1,2))
+plt.plot(Bplot, linewidth = 12)
+plt.plot(Xplot, color = ([217/255,83/255,24/255]), linewidth = 6)
+plt.axis('off')
+# plt.set
 
+plt.subplot(2,2,3)
+plt.plot(pred_err, color = 'k', linewidth = 5)
+plt.rcParams.update({'font.size': 18})
+plt.xlabel('time-steps')
+plt.ylabel('MSE')
+plt.title('Supervised Error')
 
+plt.subplot(2,2,4)
+plt.plot(pred_err, color = 'k', linewidth = 5)
+plt.rcParams.update({'font.size': 18})
+plt.xlabel('time-steps')
+plt.ylabel('MSE')
+plt.title('Predictive Error')
+plt.tight_layout()
 
-
-
+plt.show()
 
 
 
